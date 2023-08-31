@@ -1,0 +1,37 @@
+name: PHP CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+
+    - name: Install dependencies
+      run: composer install
+
+    - name: Build and test
+      run: |
+        # Agrega aquí comandos para construir y probar tu proyecto
+
+    - name: Deploy to VPS
+      uses: easingthemes/ssh-deploy@v2
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        args: '-rltgoDzvO --delete'
+        local: '.'  # Carpeta local que deseas subir
+        host: ${{ secrets.SERVER_HOST }}
+        port: ${{ secrets.SERVER_PORT }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        path: '/home/alexis/proyectos/pipelines/'  # Ruta en el servidor donde deseas subir los archivos
