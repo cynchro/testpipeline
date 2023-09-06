@@ -22,4 +22,4 @@ jobs:
 
       - name: Pull latest changes
         run: |
-          ssh $DEPLOY_SERVER "cd /home/alexis/proyectos && git pull"
+          ssh -p 5225 $DEPLOY_SERVER "cd /home/alexis/proyectos && git pull"
