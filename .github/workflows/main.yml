@@ -22,4 +22,4 @@ jobs:
 
       - name: Change directory and pull latest changes
         run: |
-          ssh -p 5225 $DEPLOY_SERVER "cd /home/alexis/proyectos && git pull"
+          ssh -p 5225 66.97.46.216 "cd /home/alexis/proyectos && git pull"
