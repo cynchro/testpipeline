@@ -20,6 +20,6 @@ jobs:
         env:
           DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
 
-      - name: Pull latest changes
+      - name: Change directory and pull latest changes
         run: |
           ssh -p 5225 $DEPLOY_SERVER "cd /home/alexis/proyectos && git pull"
