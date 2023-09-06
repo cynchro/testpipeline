@@ -1,20 +1,25 @@
-name: Pull from VPS
+name: Update Server
 
 on:
   push:
     branches:
-      - main  # Cambia esto al nombre de tu rama principal
+      - main
 
 jobs:
-  pull:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Pull from VPS
-      run: ssh -p 5225 ${SSH_USER}@${VPS_HOST} 'cd /home/alexis/proyectos/testpipeline/ && git pull'
-      env:
-        SSH_USER: ${{ secrets.SERVER_USERNAME }}
-        VPS_HOST: ${{ secrets.SERVER_HOST }}
+      - name: SSH into server
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        env:
+          DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
+
+      - name: Pull latest changes
+        run: |
+          ssh $DEPLOY_SERVER "cd /home/alexis/proyectos && git pull"
