@@ -18,3 +18,4 @@ jobs:
       env:
         SSH_USER: ${{ secrets.USERNAME }}
         VPS_HOST: ${{ secrets.HOST }}
+        KEY: ${{ secrets.SSHKEY }}
