@@ -1,31 +1,20 @@
-name: Deploy
+name: Pull from VPS
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
-
+  pull:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Check out code
+      uses: actions/checkout@v2
 
-    - name: Copy repository contents via scp
-      uses: appleboy/scp-action@master
+    - name: Pull from VPS
+      run: ssh -p 5225 ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'cd /home/alexis/proyectos/testpipeline && git pull'
       env:
-        HOST: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSHKEY }}
-      with:
-        source: "."
-        target: "/home/alexis/proyectos/testpipeline"
-
-    - name: Executing remote command
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSHKEY }}
-        script: ls
+        SSH_USER: ${{ secrets.USERNAME }}
+        VPS_HOST: ${{ secrets.HOST }}
