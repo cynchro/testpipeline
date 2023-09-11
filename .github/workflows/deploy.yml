@@ -13,35 +13,14 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
+    - name: Show SSH_USER and VPS_HOST
+      run: |
+        echo "SSH_USER: ${{ secrets.SSH_USER }}"
+        echo "VPS_HOST: ${{ secrets.VPS_HOST }}"
+
     - name: Pull from VPS
-      run: ssh -p 5225 root@66.97.46.216 'cd /home/alexis/proyectos/testpipeline && git pull'
+      run: |
+        ssh -p 5225 ${{ secrets.SSH_USER }}@${{ secrets.VPS_HOST }} 'cd /home/alexis/proyectos/testpipeline && git pull'
       env:
-        SSH_USER: root
-        VPS_HOST: 66.97.46.216
-        KEY: '-----BEGIN OPENSSH PRIVATE KEY-----
-          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
-          -----END OPENSSH PRIVATE KEY-----'
+        SSH_USER: ${{ secrets.SSH_USER }}
+        VPS_HOST: ${{ secrets.VPS_HOST }}
