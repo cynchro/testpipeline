@@ -1,34 +1,18 @@
-name: Pull from VPS
-
-on:
-  push:
-    branches:
-      - main
-
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
 jobs:
-  pull:
+  Explore-GitHub-Actions:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-
-    - name: Show SSH_USER and VPS_HOST
-      run: |
-        echo "SSH_USER: ${{ secrets.SSH_USER }}"
-        echo "VPS_HOST: ${{ secrets.VPS_HOST }}"
-
-    - name: Pull from VPS
-      run: |
-        ssh -p 5225 ${{ secrets.SSH_USER }}@${{ secrets.VPS_HOST }} 'cd /home/alexis/proyectos/testpipeline && git pull'
-      env:
-        SSH_USER: ${{ secrets.SSH_USER }}
-        VPS_HOST: ${{ secrets.VPS_HOST }}
-
-    - name: Add SSH key to known_hosts
-      run: |
-        ssh-keyscan -p 5225 ${{ secrets.VPS_HOST }} >> $HOME/.ssh/known_hosts
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-      
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
